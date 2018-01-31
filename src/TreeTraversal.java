@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class TreeTraversal {
 	
@@ -53,6 +55,28 @@ public class TreeTraversal {
 		route.add(nodeToTraverse);
 	}
 	
+	public void levelTraversal(Node root) {
+		Queue<Node> queue = new LinkedList<Node>();
+		
+		if (root == null) {
+			return;
+		}
+		
+		queue.add(root);
+		
+		while (!queue.isEmpty()) {
+			Node currentNode = queue.poll();
+			route.add(currentNode);
+			if (currentNode.mLeftChild > 0) {
+				queue.add(tree.get(currentNode.mLeftChild));
+			}
+			if (currentNode.mRightChild > 0) {
+				queue.add(tree.get(currentNode.mRightChild));
+			}
+		}
+		
+	}
+	
 	public static void main(String[] args) throws IOException {
 		// create the binary search tree
 		// [key, left, right, key left, right...]
@@ -69,7 +93,7 @@ public class TreeTraversal {
 			tree.add(node);
 		}
 		// amend the method of traversal here
-		inOrderTraversal(tree.get(0));
+		levelTraversal(tree.get(0));
 		for (Node node : route) {
 			System.out.print(" "+node.mKey+" ");
 		}
